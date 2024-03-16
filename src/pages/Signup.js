@@ -14,11 +14,12 @@ import {
 } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import PhoneIcon from "@mui/icons-material/Phone";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle"; // Import AccountCircleIcon
-import { signUp } from "../Services/userServices";
+import { VerifyOtp, signUp } from "../Services/userServices";
+import { MuiOtpInput } from "mui-one-time-password-input";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -37,9 +38,7 @@ function Signup() {
     e.preventDefault();
     setLoading(true);
 
-
-
-    if (name.trim() && email.trim() && password.trim()) {
+    if (name.trim() && email.trim() && password.trim() && role.trim()) {
       try {
         const user = {
           username: name,
@@ -157,7 +156,7 @@ function Signup() {
                   <OutlinedInput
                     startAdornment={
                       <InputAdornment position="start">
-                        <AccountCircleIcon /> {/* Change icon here */}
+                        <PhoneIcon />
                       </InputAdornment>
                     }
                     placeholder="Role"
