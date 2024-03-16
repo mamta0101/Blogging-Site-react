@@ -43,7 +43,7 @@ const navigate = useNavigate();
 
         } catch (error) {
           console.error('Error adding blog:', error);
-          toast.error(error?.message, {
+          toast.error("you are not authorize to add blogs", {
             position: "top-center",
             autoClose: 2000,
           });

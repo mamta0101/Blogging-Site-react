@@ -71,7 +71,7 @@ const AllBlogs = () => {
       getData();
     } catch (error) {
       console.error("Error deleting blog:", error);
-      toast.error(error?.message, {
+      toast.error("you are not authorize to delete blogs", {
         position: "top-center",
         autoClose: 2000,
       });

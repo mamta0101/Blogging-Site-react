@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -11,96 +11,88 @@ import {
   InputAdornment,
   OutlinedInput,
   Typography,
-} from '@mui/material';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import PhoneIcon from '@mui/icons-material/Phone';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { VerifyOtp, signUp } from '../Services/userServices';
-import { MuiOtpInput } from 'mui-one-time-password-input'
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-
+} from "@mui/material";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle"; // Import AccountCircleIcon
+import { signUp } from "../Services/userServices";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Signup() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => setShowPassword((show) => !show);
 
- 
-
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
 
-    let user ={
-      username:name,
-      email: email,
-      password:password,
-      role:"admin"
-     
-    }
-if(name || email || password ){
-    try {
+
+
+    if (name.trim() && email.trim() && password.trim()) {
+      try {
+        const user = {
+          username: name,
+          email: email,
+          password: password,
+          role: role,
+        };
         const result = await signUp(user);
-        console.log('User Created successfully:', result);
-        setLoading(false)
-        navigate("/")
+        console.log("User Created successfully:", result);
+        setLoading(false);
+        navigate("/");
         toast.success("User Created successfully!", {
-            position: "top-center",
-            autoClose: 2000,
-          });
+          position: "top-center",
+          autoClose: 2000,
+        });
         setEmail("");
         setPassword("");
         setName("");
+        setRole("");
       } catch (error) {
-        console.error('signup failed:', error);
-        setLoading(false)   
+        console.error("signup failed:", error);
+        setLoading(false);
         toast.error(error?.message, {
-            position: "top-center",
-            autoClose: 2000,
-          });  
+          position: "top-center",
+          autoClose: 2000,
+        });
       }
-    }else{
-        toast.warning("please fill all details", {
-            position: "top-center",
-            autoClose: 2000,
-          });  
-          setLoading(false)
+    } else {
+      toast.warning("Please fill all details", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+      setLoading(false);
     }
-  
-}
-   
-
-
+  };
 
   return (
     <Container
-    maxWidth
+      maxWidth
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#000',
-
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        backgroundColor: "#000",
       }}
     >
       <Card
         variant="outlined"
-        sx={{ width: 350, maxWidth: '100%', padding: 2 }}
+        sx={{ width: 350, maxWidth: "100%", padding: 2 }}
       >
-      
         <CardContent>
-          <Typography variant="h5" sx={{ textAlign: 'center', mb: 2 }}>
+          <Typography variant="h5" sx={{ textAlign: "center", mb: 2 }}>
             Sign Up
           </Typography>
           <form onSubmit={handleSubmit}>
@@ -133,7 +125,6 @@ if(name || email || password ){
                   />
                 </FormControl>
               </Grid>
-        
               <Grid item xs={12}>
                 <FormControl fullWidth variant="outlined">
                   <OutlinedInput
@@ -144,7 +135,7 @@ if(name || email || password ){
                     }
                     endAdornment={
                       <InputAdornment
-                        sx={{ cursor: 'pointer' }}
+                        sx={{ cursor: "pointer" }}
                         onClick={togglePasswordVisibility}
                       >
                         {showPassword ? (
@@ -154,10 +145,24 @@ if(name || email || password ){
                         )}
                       </InputAdornment>
                     }
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl fullWidth variant="outlined">
+                  <OutlinedInput
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <AccountCircleIcon /> {/* Change icon here */}
+                      </InputAdornment>
+                    }
+                    placeholder="Role"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
                   />
                 </FormControl>
               </Grid>
@@ -167,24 +172,24 @@ if(name || email || password ){
                 type="submit"
                 variant="contained"
                 fullWidth
-                sx={{bgcolor:'black'}}
+                sx={{ bgcolor: "black" }}
               >
-                
-                {loading ? <CircularProgress size={20}/> : "Sign Up"}
+                {loading ? <CircularProgress size={20} /> : "Sign Up"}
               </Button>
             </Box>
           </form>
           <Typography
-                onClick={()=>navigate('/')}
-                sx={{ cursor: "pointer", color: "#757575" , textAlign:'center', mt:2}}
-              >
-           
-                Already have an account;
-               
-              </Typography>
+            onClick={() => navigate("/")}
+            sx={{
+              cursor: "pointer",
+              color: "#757575",
+              textAlign: "center",
+              mt: 2,
+            }}
+          >
+            Already have an account;
+          </Typography>
         </CardContent>
-       
-
       </Card>
     </Container>
   );

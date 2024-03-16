@@ -71,7 +71,7 @@ const navigate = useNavigate();
 
         } catch (error) {
           console.error('Error adding Blog:', error);
-          toast.error(error?.response?.data?.message, {
+          toast.error("you are not authorize to update blogs",{
             position: "top-center",
             autoClose: 2000,
           });
